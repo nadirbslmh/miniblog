@@ -7,10 +7,11 @@
     <title>Create a new blog</title>
 </head>
 <body>
-    <form action="/blogs" method="post">
+    <form action="/blogs" method="post" enctype="multipart/form-data">
         @csrf
         <input type="text" name="title" id="title" value="{{ old('title') }}" required>    
         <input type="text" name="content" id="content" value="{{ old('content') }}" required>
+        <input type="file" name="image" id="image">
 
         <button type="submit">create</button>
     </form>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Blog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class BlogController extends Controller
 {
@@ -29,6 +30,10 @@ class BlogController extends Controller
         ]);
 
         $fields['user_id'] = 1; //TODO: replace with actual user
+
+        if ($request->hasFile('image')) {
+            $fields['image'] = $request->file('image')->store('images', 'public');
+        }
 
         Blog::create($fields);
 
@@ -63,6 +68,8 @@ class BlogController extends Controller
 
     public function destroy(Blog $blog)
     {
+        File::delete('storage/' . $blog->image);
+
         $blog->delete();
 
         return redirect('/');
