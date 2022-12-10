@@ -24,6 +24,7 @@ Route::middleware(['guest'])->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/blogs/dashboard', [BlogController::class, 'dashboard']);
     Route::get('/blogs/create', [BlogController::class, 'create']);
     Route::get('/blogs/{blog}', [BlogController::class, 'show']);
     Route::post('/blogs', [BlogController::class, 'store']);

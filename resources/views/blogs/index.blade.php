@@ -7,47 +7,18 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Dashboard</h1>
-
-    @auth
-        <a href="/blogs/create">Create a new blog</a>
-         <form action="/logout" method="post">
-            @csrf
-            <button type="submit">Logout</button>
-         </form>
-    @else
-         <a href="/register">Register now!</a>
-         <a href="/login">Login</a>
-    @endauth
+    <h1>All Blogs!</h1>
+        <a href="/register">Register now!</a>
+        <a href="/login">Login</a>
     
-    <table>
-        <tr>
-            <th>Title</th>
-            <th>Content</th>
-            <th>Actions</th>
-        </tr>
-        @forelse ($blogs as $blog)    
-            <tr>
-                <td>{{ $blog->title }}</td>
-                <td>{{ $blog->content }}</td>
-                <td>
-                    @auth
-                    <a href="/blogs/{{$blog->id}}">View</a>
-                    <a href="/blogs/{{$blog->id}}/edit">Edit</a>
-                    <form action="/blogs/{{$blog->id}}" method="post">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit">Delete</button>
-                    </form>
-                    @endauth
-                </td>
-            </tr>
-
-        @empty
-            <td colspan="3">
-                <p>no blogs available</p>
-            </td>
-        @endforelse
-    </table>
+    @forelse ($blogs as $blog)
+        <div>
+            <h1>{{ $blog->title }}</h1>
+            <p>{{ $blog->content }}</p>
+            <img src="{{ asset('storage/' . $blog->image) }}" alt="{{ $blog->title }}">
+        </div>
+    @empty
+        <p>no blogs available!</p>
+    @endforelse
 </body>
 </html>

@@ -17,6 +17,15 @@ class BlogController extends Controller
         ]);
     }
 
+    public function dashboard()
+    {
+        $blogs = auth()->user()->blogs()->get();
+
+        return view('blogs.dashboard', [
+            'blogs' => $blogs
+        ]);
+    }
+
     public function create()
     {
         return view('blogs.create');
@@ -37,7 +46,7 @@ class BlogController extends Controller
 
         Blog::create($fields);
 
-        return redirect('/');
+        return redirect('/blogs/dashboard');
     }
 
     public function show(Blog $blog)
@@ -63,7 +72,7 @@ class BlogController extends Controller
 
         $blog->update($fields);
 
-        return redirect('/');
+        return redirect('/blogs/dashboard');
     }
 
     public function destroy(Blog $blog)
@@ -72,6 +81,6 @@ class BlogController extends Controller
 
         $blog->delete();
 
-        return redirect('/');
+        return redirect('/blogs/dashboard');
     }
 }

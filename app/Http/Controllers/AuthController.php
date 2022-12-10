@@ -27,7 +27,7 @@ class AuthController extends Controller
 
         auth()->login($user);
 
-        return redirect('/');
+        return redirect('/blogs/dashboard');
     }
 
     public function logout(Request $request)
@@ -56,7 +56,7 @@ class AuthController extends Controller
         if (auth()->attempt($formFields)) {
             $request->session()->regenerate();
 
-            return redirect('/');
+            return redirect('/blogs/dashboard');
         }
 
         return back()->withErrors(['email' => 'Invalid credentials'])->onlyInput('email');
