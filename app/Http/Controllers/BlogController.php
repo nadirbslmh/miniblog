@@ -29,7 +29,7 @@ class BlogController extends Controller
             'content' => 'required',
         ]);
 
-        $fields['user_id'] = 1; //TODO: replace with actual user
+        $fields['user_id'] = auth()->id();
 
         if ($request->hasFile('image')) {
             $fields['image'] = $request->file('image')->store('images', 'public');

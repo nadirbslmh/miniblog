@@ -9,8 +9,17 @@
 <body>
     <h1>Dashboard</h1>
 
-    <a href="/blogs/create">Create a new blog</a>
-
+    @auth
+        <a href="/blogs/create">Create a new blog</a>
+         <form action="/logout" method="post">
+            @csrf
+            <button type="submit">Logout</button>
+         </form>
+    @else
+         <a href="/register">Register now!</a>
+         <a href="/login">Login</a>
+    @endauth
+    
     <table>
         <tr>
             <th>Title</th>
@@ -22,6 +31,7 @@
                 <td>{{ $blog->title }}</td>
                 <td>{{ $blog->content }}</td>
                 <td>
+                    @auth
                     <a href="/blogs/{{$blog->id}}">View</a>
                     <a href="/blogs/{{$blog->id}}/edit">Edit</a>
                     <form action="/blogs/{{$blog->id}}" method="post">
@@ -29,6 +39,7 @@
                         @method('DELETE')
                         <button type="submit">Delete</button>
                     </form>
+                    @endauth
                 </td>
             </tr>
 
