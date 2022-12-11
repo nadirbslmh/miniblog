@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Services\BlogService;
 use App\Models\Blog;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
-use Illuminate\Validation\Rules\File as FileValidation;
 
 class BlogController extends Controller
 {
+    private BlogService $service;
+
+    public function __construct(BlogService $service)
+    {
+        $this->service = $service;
+    }
+
     public function index()
     {
-        $blogs = Blog::latest()->filter(request(['title']))->paginate(6);
+        $blogs = $this->service->getAll();
 
         return view('blogs.index', [
             'blogs' => $blogs
@@ -34,19 +40,7 @@ class BlogController extends Controller
 
     public function store(Request $request)
     {
-        $fields = $request->validate([
-            'title' => 'required',
-            'content' => 'required',
-            'image' => FileValidation::types(['jpg', 'png', 'jpeg', 'gif'])
-        ]);
-
-        $fields['user_id'] = auth()->id();
-
-        if ($request->hasFile('image')) {
-            $fields['image'] = $request->file('image')->store('images', 'public');
-        }
-
-        Blog::create($fields);
+        $this->service->create($request);
 
         return redirect('/blogs/dashboard');
     }
@@ -67,27 +61,14 @@ class BlogController extends Controller
 
     public function update(Request $request, Blog $blog)
     {
-        $fields = $request->validate([
-            'title' => 'required',
-            'content' => 'required',
-            'image' => FileValidation::types(['jpg', 'png', 'jpeg', 'gif'])
-        ]);
-
-        if ($request->hasFile('image')) {
-            File::delete('storage/' . $blog->image);
-            $fields['image'] = $request->file('image')->store('images', 'public');
-        }
-
-        $blog->update($fields);
+        $this->service->update($request, $blog);
 
         return redirect('/blogs/dashboard');
     }
 
     public function destroy(Blog $blog)
     {
-        File::delete('storage/' . $blog->image);
-
-        $blog->delete();
+        $this->service->delete($blog);
 
         return redirect('/blogs/dashboard');
     }
