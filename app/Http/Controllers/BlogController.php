@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Validation\Rules\File as FileValidation;
 
 class BlogController extends Controller
 {
     public function index()
     {
-        $blogs = Blog::all();
+        $blogs = Blog::latest()->paginate(6);
 
         return view('blogs.index', [
             'blogs' => $blogs
@@ -19,7 +20,7 @@ class BlogController extends Controller
 
     public function dashboard()
     {
-        $blogs = auth()->user()->blogs()->get();
+        $blogs = auth()->user()->blogs()->latest()->paginate(2);
 
         return view('blogs.dashboard', [
             'blogs' => $blogs
@@ -36,6 +37,7 @@ class BlogController extends Controller
         $fields = $request->validate([
             'title' => 'required',
             'content' => 'required',
+            'image' => FileValidation::types(['jpg', 'png', 'jpeg', 'gif'])
         ]);
 
         $fields['user_id'] = auth()->id();
@@ -68,7 +70,13 @@ class BlogController extends Controller
         $fields = $request->validate([
             'title' => 'required',
             'content' => 'required',
+            'image' => FileValidation::types(['jpg', 'png', 'jpeg', 'gif'])
         ]);
+
+        if ($request->hasFile('image')) {
+            File::delete('storage/' . $blog->image);
+            $fields['image'] = $request->file('image')->store('images', 'public');
+        }
 
         $blog->update($fields);
 

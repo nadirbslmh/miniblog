@@ -28,4 +28,5 @@
         @endforelse
     </div>
     
+    {{ $blogs->links() }}
 </x-layout>

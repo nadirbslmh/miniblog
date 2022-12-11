@@ -1,19 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>edit a blog</title>
-</head>
-<body>
-    <form action="/blogs/{{ $blog->id }}" method="post">
-        @csrf
-        @method('PUT')
-        <input type="text" name="title" id="title" value="{{ $blog->title }}" required>    
-        <input type="text" name="content" id="content" value="{{ $blog->content }}" required>
+<x-dashboard-layout>
+     <div class="container">
+        <br>
+        <div class="card">
+            <div class="card-body">
+                <a href="/blogs/dashboard" class="btn btn-secondary"> <i class="bi-arrow-left"></i>&nbsp;Go back</a>
 
-        <button type="submit">update</button>
-    </form>
-</body>
-</html>
+                <h5 class="card-title text-center">Edit blog</h5>
+                <form action="/blogs/{{ $blog->id }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Blog Title</label>
+                        <input class="form-control" type="text" name="title" id="title" value="{{ $blog->title }}" required>
+                        @error('title')
+                            <div class="mt-8">
+                                <p class="text-danger">{{ $message }}</p>
+                            </div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="content" class="form-label">Blog Content</label>
+                        <textarea name="content" id="" cols="30" rows="10" class="form-control" id="content" required>{{ $blog->content }}</textarea>
+                        @error('content')
+                            <div class="mt-8">
+                                <p class="text-danger">{{ $message }}</p>
+                            </div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Blog Image</label>
+                        <input class="form-control" type="file" id="image" name="image">
+                        @error('image')
+                            <div class="mt-8">
+                                <p class="text-danger">{{ $message }}</p>
+                            </div>
+                        @enderror
+                        
+                        <img src="{{ $blog->image ? asset('storage/' . $blog->image) : asset('images/no-image.png') }}" alt="{{ $blog->title }}" width="300" height="200">
+                    </div>
+                    
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                        <button class="btn btn-primary" type="submit">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</x-dashboard-layout>

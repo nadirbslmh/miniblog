@@ -1,19 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Create a new blog</title>
-</head>
-<body>
-    <form action="/blogs" method="post" enctype="multipart/form-data">
-        @csrf
-        <input type="text" name="title" id="title" value="{{ old('title') }}" required>    
-        <input type="text" name="content" id="content" value="{{ old('content') }}" required>
-        <input type="file" name="image" id="image">
+<x-dashboard-layout>
+     <div class="container">
+        <br>
+        <div class="card">
+            <div class="card-body">
+                <a href="/blogs/dashboard" class="btn btn-secondary"> <i class="bi-arrow-left"></i>&nbsp;Go back</a>
 
-        <button type="submit">create</button>
-    </form>
-</body>
-</html>
+                <h5 class="card-title text-center">Create a new blog</h5>
+                <form action="/blogs" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Blog Title</label>
+                        <input class="form-control" type="text" name="title" id="title" value="{{ old('title') }}" required>
+                        @error('title')
+                            <div class="mt-8">
+                                <p class="text-danger">{{ $message }}</p>
+                            </div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="content" class="form-label">Blog Content</label>
+                        <textarea name="content" id="" cols="30" rows="10" class="form-control" id="content" required>{{ old('content') }}</textarea>
+                        @error('content')
+                            <div class="mt-8">
+                                <p class="text-danger">{{ $message }}</p>
+                            </div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Blog Image</label>
+                        <input class="form-control" type="file" id="image" name="image">
+                        @error('image')
+                            <div class="mt-8">
+                                <p class="text-danger">{{ $message }}</p>
+                            </div>
+                        @enderror
+                    </div>
+                    
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                        <button class="btn btn-primary" type="submit">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</x-dashboard-layout>
