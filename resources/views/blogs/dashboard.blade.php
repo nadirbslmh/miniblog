@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -50,4 +50,43 @@
         @endforelse
     </table>
 </body>
-</html>
+</html> --}}
+
+<x-dashboard-layout>
+    <div class="container">
+        <br>
+        <div class="mt-8">
+            <a href="/blogs/create" class="btn btn-primary"> <i class="bi-plus-circle"></i>&nbsp;Create a new blog</a>
+        </div>
+
+        <table class="table table-hover">
+            <tr>
+                <th>Title</th>
+                <th>Content</th>
+                <th>Actions</th>
+            </tr>
+            @forelse ($blogs as $blog)    
+                <tr>
+                    <td>{{ $blog->title }}</td>
+                    <td>{{ $blog->content }}</td>
+                    <td>
+                        @auth
+                        <a href="/blogs/{{$blog->id}}">View</a>
+                        <a href="/blogs/{{$blog->id}}/edit">Edit</a>
+                        <form action="/blogs/{{$blog->id}}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit">Delete</button>
+                        </form>
+                        @endauth
+                    </td>
+                </tr>
+    
+            @empty
+                <td colspan="3">
+                    <p>no blogs available</p>
+                </td>
+            @endforelse
+        </table>
+    </div>
+</x-dashboard-layout>

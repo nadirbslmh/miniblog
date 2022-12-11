@@ -1,20 +1,60 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>register</title>
-</head>
-<body>
-    <form action="/register" method="post">
-        @csrf
-        <input type="text" name="name" value="{{ old('name') }}" id="name" required>
-        <input type="email" name="email" value="{{ old('email') }}" id="email" required>
-        <input type="password" name="password" value="{{ old('password') }}" id="password" required>
-        <input type="password" name="password_confirmation" value="{{ old('password_confirmation') }}" id="password_confirmation" required>
-        
-        <button type="submit">Register now</button>
-    </form>
-</body>
-</html>
+<x-layout>
+    <div class="container">
+        <br>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title text-center">Register</h5>
+                <p class="card-text text-center">Please create an account to explore MiniBlog</p>
+                    <form action="/register" method="post">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Username</label>
+                        <input type="text" class="form-control" name="name" value="{{ old('name') }}" id="name" required>
+                        @error('name')
+                            <div class="mt-8">
+                                <p class="text-danger">{{ $message }}</p>
+                            </div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" class="form-control" name="email" value="{{ old('email') }}" id="email" required>
+                        @error('email')
+                            <div class="mt-8">
+                                <p class="text-danger">{{ $message }}</p>
+                            </div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" name="password" value="{{ old('password') }}" id="password" required>
+                        @error('password')
+                            <div class="mt-8">
+                                <p class="text-danger">{{ $message }}</p>
+                            </div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password_confirmation" class="form-label">Password Confirmation</label>
+                        <input type="password" class="form-control" name="password_confirmation" value="{{ old('password_confirmation') }}" id="password_confirmation" required>
+                        @error('password_confirmation')
+                            <div class="mt-8">
+                                <p class="text-danger">{{ $message }}</p>
+                            </div>
+                        @enderror
+                    </div>
+                    
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                        <button class="btn btn-primary" type="submit">Register</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-muted text-center">
+                Already have an account? <a href="/login">login</a>
+            </div>
+        </div>
+    </div>
+</x-layout>

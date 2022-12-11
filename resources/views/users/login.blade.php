@@ -1,18 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>login</title>
-</head>
-<body>
-    <form action="/login" method="post">
-        @csrf
-        <input type="email" name="email" value="{{ old('email') }}" id="email" required>
-        <input type="password" name="password" value="{{ old('password') }}" id="password" required>
-        
-        <button type="submit">Login</button>
-    </form>
-</body>
-</html>
+<x-layout>
+    <div class="container">
+        <br>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title text-center">Login</h5>
+                <p class="card-text text-center">Please login into your account</p>
+                    <form action="/login" method="post">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" class="form-control" name="email" value="{{ old('email') }}" id="email" required>
+                        @error('email')
+                            <div class="mt-8">
+                                <p class="text-danger">{{ $message }}</p>
+                            </div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" name="password" value="{{ old('password') }}" id="password" required>
+                        @error('password')
+                            <div class="mt-8">
+                                <p class="text-danger">{{ $message }}</p>
+                            </div>
+                        @enderror
+                    </div>
+                    
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                        <button class="btn btn-primary" type="submit">Login</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-muted text-center">
+                Don't have an account? <a href="/register">register now</a>
+            </div>
+        </div>
+    </div>
+</x-layout>

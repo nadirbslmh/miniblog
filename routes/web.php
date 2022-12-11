@@ -26,7 +26,6 @@ Route::middleware(['guest'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/blogs/dashboard', [BlogController::class, 'dashboard']);
     Route::get('/blogs/create', [BlogController::class, 'create']);
-    Route::get('/blogs/{blog}', [BlogController::class, 'show']);
     Route::post('/blogs', [BlogController::class, 'store']);
     Route::get('/blogs/{blog}/edit', [BlogController::class, 'edit']);
     Route::put('/blogs/{blog}', [BlogController::class, 'update']);
@@ -34,3 +33,5 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout']);
 });
+
+Route::get('/blogs/{blog}', [BlogController::class, 'show']);
