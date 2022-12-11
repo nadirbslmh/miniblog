@@ -11,7 +11,7 @@ class BlogController extends Controller
 {
     public function index()
     {
-        $blogs = Blog::latest()->paginate(6);
+        $blogs = Blog::latest()->filter(request(['title']))->paginate(6);
 
         return view('blogs.index', [
             'blogs' => $blogs
@@ -20,7 +20,7 @@ class BlogController extends Controller
 
     public function dashboard()
     {
-        $blogs = auth()->user()->blogs()->latest()->paginate(2);
+        $blogs = auth()->user()->blogs()->latest()->filter(request(['title']))->paginate(6);
 
         return view('blogs.dashboard', [
             'blogs' => $blogs

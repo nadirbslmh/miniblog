@@ -25,8 +25,8 @@
                 <a class="nav-link" aria-current="page" href="/blogs/dashboard">Dashboard</a>
                 </li>
             </ul>
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search blog..." aria-label="Search">
+            <form class="d-flex" role="search" action="/blogs/dashboard">
+                <input class="form-control me-2" name="title" type="search" placeholder="Search blog..." aria-label="Search">
                 <button class="btn btn-light" type="submit">Search</button>
             </form>
             <div class="d-flex p-2">

@@ -11,6 +11,14 @@ class Blog extends Model
 
     protected $fillable = ['title', 'content', 'user_id', 'image'];
 
+    public function scopeFilter($query, array $filters)
+    {
+        if ($filters['title'] ?? false) {
+            $query->where('title', 'like', '%' . request('title') . '%');
+        }
+    }
+
+
     public function User()
     {
         return $this->belongsTo(User::class, 'user_id');
