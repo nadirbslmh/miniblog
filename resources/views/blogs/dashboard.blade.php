@@ -69,20 +69,14 @@
                     <td>{{ $blog->title }}</td>
                     <td>
                         @auth
-                        <div class="row">
-                            <div class="col">
-                                <a href="/blogs/{{$blog->id}}" class="btn btn-info"> <i class="bi-clipboard-fill"></i>&nbsp;View</a>
-                            </div>
-                            <div class="col">
-                                <a href="/blogs/{{$blog->id}}/edit" class="btn btn-warning"> <i class="bi-pencil-square"></i>&nbsp;Edit</a>
-                            </div>
-                            <div class="col">
-                                <form action="/blogs/{{$blog->id}}" method="post">
+                        <div class="d-flex p-2 text-start">
+                            <a href="/blogs/{{$blog->id}}" class="btn btn-info"> <i class="bi-clipboard-fill"></i>&nbsp;View</a>
+                            <a href="/blogs/{{$blog->id}}/edit" class="btn btn-warning"> <i class="bi-pencil-square"></i>&nbsp;Edit</a>
+                            <form action="/blogs/{{$blog->id}}" method="post">
                                     @csrf
                                     @method('DELETE')
                                     <button class="btn btn-danger" type="submit"> <i class="bi-trash-fill"></i>&nbsp;Delete</button>
-                                </form> 
-                            </div>
+                            </form> 
                         </div>
                         @endauth
                     </td>
